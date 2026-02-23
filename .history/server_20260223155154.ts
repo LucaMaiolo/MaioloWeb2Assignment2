@@ -51,9 +51,7 @@ async function handleCreateJob(title: string, description: string,
             }
             else if (err instanceof InvalidInputError) {
                 console.warn("Invalid input in addJob")
-                return "Invalid input"
             }
-           
             console.error("Unexpected error in addJob.")
             return "Unexpected error when creating job"
         }
@@ -71,7 +69,7 @@ async function handleGetAllJobs(statusFilter?: string): Promise<string>{
         }
         console.error('Error in getAllJobs');
         return 'Error retrieving jobs\n';
-    }     //MAKE DATABASE ERROR HANDLING 
+    }     
 }
 
 async function handleGetJobByTitle(title: string): Promise<string>{

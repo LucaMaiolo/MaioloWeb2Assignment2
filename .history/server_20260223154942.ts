@@ -32,7 +32,7 @@ createServer(async function (request: IncomingMessage, response: ServerResponse)
     response.write(await handelDeleteJob("Walk the dog"));
     
 
-    response.end('Hello World! This is a simple job board server.\n');
+    response.end('Hello Aadi. Who did you fight?');
 }).listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
@@ -51,9 +51,7 @@ async function handleCreateJob(title: string, description: string,
             }
             else if (err instanceof InvalidInputError) {
                 console.warn("Invalid input in addJob")
-                return "Invalid input"
             }
-           
             console.error("Unexpected error in addJob.")
             return "Unexpected error when creating job"
         }
@@ -63,7 +61,7 @@ async function handleGetAllJobs(statusFilter?: string): Promise<string>{
     try{
         const jobList: model.Job[] = await model.getAllJobs(statusFilter);
         console.log(jobList);
-        return `Successfully found all ${jobList.length} jobs! \n`
+        return `Successfully found all ${jobList.length} jobs!`
     }catch (err: unknown) {
         if (err instanceof InvalidInputError) {
           console.warn('Invalid filter: ' + (err as Error).message);
@@ -71,13 +69,13 @@ async function handleGetAllJobs(statusFilter?: string): Promise<string>{
         }
         console.error('Error in getAllJobs');
         return 'Error retrieving jobs\n';
-    }     //MAKE DATABASE ERROR HANDLING 
+    }     
 }
 
 async function handleGetJobByTitle(title: string): Promise<string>{
     try {
         const result = await model.getJobByTitle(title);
-        return `Job found with name ${result.title} \n`
+        return `Job found with name ${result.title}!`
     }catch (err: unknown) {
         if (err instanceof InvalidInputError) {
           console.warn('Invalid title: ' + title);
@@ -93,7 +91,7 @@ async function handleGetJobByTitle(title: string): Promise<string>{
 async function handleUpdateJob(title:string, budget: number, status: string): Promise<String>{
     try {
         await model.updateJob(title,budget,status);
-        return `Job updated with name ${title}! \n`
+        return `Job updated with name ${title}!`
     }catch (err: unknown) {
         if (err instanceof InvalidInputError) {
           console.warn('Invalid title: ' + title);
@@ -109,17 +107,17 @@ async function handleUpdateJob(title:string, budget: number, status: string): Pr
 async function handelDeleteJob(title:string):Promise<string> {
     try{
         await model.deleteJob(title);
-        return `Succesfully deleted ${title}\n`
+        return `Succesfully deleted ${title}`
     }
     catch (err:unknown){
         if (err instanceof InvalidInputError){
             console.warn("Invalid name to delete")
-            return `deleteJob failed, invalid title\n`
+            return `deleteJob failed, invalid title`
         }
         else if (err instanceof DatabaseError)
         {
             console.error("DB error in deleteJob")
-            return `Job ${title} not found in db\n`
+            return `Job ${title} not found in db`
         }
         return "unexpected error in deleteJob"
 

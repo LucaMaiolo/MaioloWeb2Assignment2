@@ -11,10 +11,10 @@ function isValidJob(title: string, description: string, location: string, budget
     if(!title)
         throw new InvalidInputError("Title is empty");
 
-    if (!description)
+    if (!description )
         throw new InvalidInputError("Description is empty")
 
-    if (!location)
+    if (!location )
         throw new InvalidInputError("Location is empty")
 
     if (typeof budget !== 'number' || isNaN(budget) || budget <= 0)
