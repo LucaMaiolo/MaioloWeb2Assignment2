@@ -15,11 +15,11 @@ createServer(async function (request: IncomingMessage, response: ServerResponse)
 
     response.writeHead(200, { 'Content-Type': 'text/plain' });
     response.write(await handleCreateJob('Fix leaky faucet', 'Kitchen faucet drips.',
-        'Montreal, QC', 80) + '\n');
+        'Montreal, QC', 80));
     response.write(await handleCreateJob('Mow the lawn', 'Front and back yard.',
-        'Laval, QC', 60) + '\n');
-    response.write(await handleCreateJob('Walk the dog', 'Walk my dog for 30 minutes.', "Dorval, Qc",10)+ '\n');
-    response.write(await handleCreateJob('', 'Bad input demo', 'Nowhere', -1) + '\n'); // expect failure
+        'Laval, QC', 60));
+    response.write(await handleCreateJob('Walk the dog', 'Walk my dog for 30 minutes.', "Dorval, Qc",10));
+    response.write(await handleCreateJob('', 'Bad input demo', 'Nowhere', -1)); // expect failure
 
     //read
     response.write(await handleGetAllJobs());

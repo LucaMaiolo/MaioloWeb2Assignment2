@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Server",
-      "runtimeArgs": ["--loader", "ts-node/esm"],
+      "runtimeArgs": ["--no-warnings", "--loader", "ts-node/esm"],
       "args": ["server.ts"],
       "envFile": "${workspaceFolder}/.env",
       "restart": true,
