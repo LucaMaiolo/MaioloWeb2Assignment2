@@ -90,82 +90,19 @@ test('addJob throws InvalidInputError for empty description', async () => {
 
 
 //Finding 
-test('Can get job by title', async () => {
-    const newJob = generateJobData();
-    if (!newJob) throw new Error("No more job data available");
-
-    await model.addJob(newJob.title, newJob.description, newJob.location, newJob.budget);
-    const result = await model.getJobByTitle(newJob.title);
-
-    expect(result.title.toLowerCase() == newJob.title.toLowerCase()).toBe(true);
+test('Finds an existing job', async () => {
+    await model.addJob('Mow lawn', 'Front yard', 'Laval', 40);
+    const job = await model.getJobByTitle('Mow lawn');
+    expect(job.title).toBe('Mow lawn');
 });
 
-test('getJobByTitle throws DatabaseError for non-existent title', async () => {
-    await expect(model.getJobByTitle('This job does not exist'))
-        .rejects.toThrow(DatabaseError);
-});
+test('Throws DatabaseError for non-existent title', async () => {
+        await expect(model.getJobByTitle('Ghost job'))
+            .rejects.toThrow(DatabaseError);
+    });
 
-test('getJobByTitle throws InvalidInputError for empty title', async () => {
-    await expect(model.getJobByTitle(''))
-        .rejects.toThrow(InvalidInputError);
-});
+test('Throws InvalidInputError for empty title', async () => {
+        await expect(model.getJobByTitle(''))
+            .rejects.toThrow(InvalidInputError);
+    });
 
-//Finding All
-
-test('Can get all jobs', async () => {
-    const job1 = generateJobData();
-    const job2 = generateJobData();
-    if (!job1 || !job2) throw new Error("No more job data available");
-
-    await model.addJob(job1.title, job1.description, job1.location, job1.budget);
-    await model.addJob(job2.title, job2.description, job2.location, job2.budget);
-
-    const results = await model.getAllJobs();
-    expect(Array.isArray(results)).toBe(true);
-    expect(results.length).toBe(2);
-});
-
-test('getAllJobs throws InvalidInputError for bad status', async () => {
-    await expect(model.getAllJobs('banana'))
-        .rejects.toThrow(InvalidInputError);
-});
-
-//update jobs
-test('Can update a job', async () => {
-    const newJob = generateJobData();
-    if (!newJob) throw new Error("No more job data available");
-
-    await model.addJob(newJob.title, newJob.description, newJob.location, newJob.budget);
-    const result = await model.updateJob(newJob.title, 999, 'completed');
-
-    expect(result).toBe(true);
-
-    const updated = await model.getJobByTitle(newJob.title);
-    expect(updated.budget).toBe(999);
-    expect(updated.status).toBe('completed');
-});
-
-test('updateJob throws DatabaseError for non-existent job', async () => {
-    await expect(model.updateJob('Nonexistent job', 10, 'open'))
-        .rejects.toThrow(DatabaseError);
-});
-
-//delete 
-test('Can delete a job', async () => {
-    const newJob = generateJobData();
-    if (!newJob) throw new Error("No more job data available");
-
-    await model.addJob(newJob.title, newJob.description, newJob.location, newJob.budget);
-    const result = await model.deleteJob(newJob.title);
-
-    expect(result).toBe(true);
-
-    const cursor = await model.getCollection().find();
-    const results = await cursor.toArray();
-    expect(results.length).toBe(0);
-});
-
-test('deleteJob throws DatabaseError for non-existent job', async () => {
-    await expect(model.deleteJob('This job does not exist'))
-        .rejects.toThrow(DatabaseError);
-});
