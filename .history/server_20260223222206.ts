@@ -6,7 +6,6 @@ import { InvalidInputError } from './InvalidInputError.js';
 import { DatabaseError } from './DatabaseError.js';
 
 
-
 let initialized = model.initialize();
 
 const port = 1339;
@@ -30,7 +29,7 @@ createServer(async function (request: IncomingMessage, response: ServerResponse)
     response.write(await handleUpdateJob("Fix leaky faucet", 60, "completed"));
 
     //delete
-    response.write(await handleDeleteJob("Walk the dog"));
+    response.write(await handelDeleteJob("Walk the dog"));
     
 
     response.end('Hello World! This is a simple job board server.\n');
@@ -67,16 +66,13 @@ async function handleGetAllJobs(statusFilter?: string): Promise<string>{
         return `Successfully found all ${jobList.length} jobs! \n`
     }catch (err: unknown) {
         if (err instanceof InvalidInputError) {
-            console.warn('Invalid filter: ' + (err as Error).message);
-            return `Bad status filter: ${statusFilter}\n`;
-        } else if (err instanceof DatabaseError) {
-            console.error('DB error in getAllJobs: ' + (err as Error).message);
-            return 'Database error retrieving jobs\n';
+          console.warn('Invalid filter: ' + (err as Error).message);
+          return `Bad status filter: ${statusFilter}\n`;
         }
-        return 'Unexpected error retrieving jobs\n';
-    }
+        console.error('Error in getAllJobs');
+        return 'Error retrieving jobs\n';
+    }     //MAKE DATABASE ERROR HANDLING 
 }
-
 
 async function handleGetJobByTitle(title: string): Promise<string>{
     try {
@@ -111,7 +107,7 @@ async function handleUpdateJob(title:string, budget: number, status: string): Pr
     }
 }
 
-async function handleDeleteJob(title:string):Promise<string> {
+async function handelDeleteJob(title:string):Promise<string> {
     try{
         await model.deleteJob(title);
         return `Succesfully deleted ${title}\n`

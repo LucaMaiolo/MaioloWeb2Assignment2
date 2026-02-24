@@ -30,7 +30,7 @@ createServer(async function (request: IncomingMessage, response: ServerResponse)
     response.write(await handleUpdateJob("Fix leaky faucet", 60, "completed"));
 
     //delete
-    response.write(await handleDeleteJob("Walk the dog"));
+    response.write(await handelDeleteJob("Walk the dog"));
     
 
     response.end('Hello World! This is a simple job board server.\n');
@@ -74,9 +74,8 @@ async function handleGetAllJobs(statusFilter?: string): Promise<string>{
             return 'Database error retrieving jobs\n';
         }
         return 'Unexpected error retrieving jobs\n';
-    }
-}
-
+    }}
+    
 
 async function handleGetJobByTitle(title: string): Promise<string>{
     try {
@@ -111,7 +110,7 @@ async function handleUpdateJob(title:string, budget: number, status: string): Pr
     }
 }
 
-async function handleDeleteJob(title:string):Promise<string> {
+async function handelDeleteJob(title:string):Promise<string> {
     try{
         await model.deleteJob(title);
         return `Succesfully deleted ${title}\n`
