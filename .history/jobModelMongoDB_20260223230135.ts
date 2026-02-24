@@ -210,4 +210,4 @@ async function deleteJob(title:string):Promise<boolean> {
 }
 
 export {initialize, addJob, getJobByTitle,getAllJobs,deleteJob,updateJob, close};
-export type { Job }
+export type { Job };

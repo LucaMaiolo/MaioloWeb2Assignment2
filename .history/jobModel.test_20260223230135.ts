@@ -41,7 +41,3 @@ beforeEach(async () => {
     }
 });
 
-afterEach(async () => {
-    await model.close();
-});
-
