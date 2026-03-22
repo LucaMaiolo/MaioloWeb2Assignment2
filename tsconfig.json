@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "es2022",
-    "types": ["node", "jest"],
+    "types": ["node", "vitest/globals"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -34,6 +34,7 @@
 
     // Recommended Options
     "strict": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
@@ -41,7 +42,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["*.ts"],
+  "include": ["*.ts", "controllers/*.ts"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
