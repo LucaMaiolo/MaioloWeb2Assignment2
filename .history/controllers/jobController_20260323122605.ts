@@ -55,7 +55,6 @@ router.get('/:title', getJob);
 /**
  * Returns a single job matching the given title (URL param).
  * Returns 200 on success, 400 for bad title, 404 if not found.
- * URL PARAM CALLED TITLE (fix all handler)
  */
 async function getJob(request: Request, response: Response): Promise<void> {
   try {
